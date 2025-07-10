@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Audio with Button</title>
+<style>
+  body {
+    background: #111;
+    color: white;
+    text-align: center;
+    padding-top: 50px;
+    font-family: Arial, sans-serif;
+  }
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<h2>Audio Example</h2>
+
+<!-- Audio element (hidden, no controls) -->
+<audio id="myAudio" autoplay>
+  <source src="ado.mp3" type="audio/mpeg">
+  Your browser does not support the audio tag.
+</audio>
+
+<!-- Just one button -->
+<button id="toggleBtn">Pause Audio</button>
+
+<script>
+const audio = document.getElementById("myAudio");
+const btn = document.getElementById("toggleBtn");
+
+// play audio on page load (if browser allows)
+window.addEventListener("load", () => {
+  audio.play().catch(err => {
+    console.log("Autoplay might be blocked by browser:", err);
+  });
+});
+
+btn.addEventListener("click", () => {
+  if (audio.paused) {
+    audio.play();
+    btn.textContent = "Pause Audio";
+  } else {
+    audio.pause();
+    btn.textContent = "Play Audio";
+  }
+});
+</script>
+
+</body>
+</html>
