@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>W Dress Company</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f7f7f7;
+        color: #333;
+    }
+         .grid{
+        background: linear-gradient(45deg, #b8b7b7, #363636);
+       -webkit-background-clip: text;
+       -webkit-text-fill-color: transparent;
+    }
+    header {
+        background: linear-gradient(90deg, #815854, #F9EBDE);
+        padding: 20px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .logo {
+        color: rgb(0, 0, 0);
+        animation: glow 3s ease-in-out infinite alternate;
+        margin: 1px;
+        padding: 1px;
+    }
+
+    @keyframes glow {
+        0% {
+            text-shadow: 0 0 10px #F9EBDE, 0 0 20px #F9EBDE, 0 0 30px #815854;
+        }
+        100% {
+            text-shadow: 0 0 20px #ffffff;
+        }
+    }
+
+    nav {
+        background: #fff;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+    }
+
+    nav ul li {
+        margin: 10px 20px;
+    }
+
+    nav ul li a {
+        text-decoration: none;
+        color: #815854;
+        font-weight: bold;
+        transition: color 0.3s;
+    }
+
+    nav ul li a:hover {
+        color: #da9c9c;
+    }
+
+    .hero {
+        text-align: center;
+        padding: 50px 20px;
+        background: url('https://images.unsplash.com/photo-1520975918313-60af5c6c67c6?fit=crop&w=1200&q=80') no-repeat center/cover;
+        color: white;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+        margin: 0;
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+    }
+
+    .products {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 40px;
+    }
+
+    .product {
+        background: rgb(255, 255, 255);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        text-align: center;
+        transition: transform 0.3s;
+    }
+
+    .product:hover {
+        transform: scale(1.05);
+        background-color: rgb(236, 236, 236);
+    }
+
+    .product img {
+        max-width: 100%;
+        border-radius: 10px;
+    }
+
+    .product h3 {
+        margin: 10px 0;   
+    }
+
+    footer {
+        background: #222;
+        color: white;
+        text-align: center;
+        padding: 20px;
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <img class="logo"  src="X.png">
+</header>
+
+<nav>
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Collection</a></li>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Contact</a></li>
+    </ul>
+</nav>
+
+<section class="">
+    <h1 style="color: black;"></h1>
+    <p style="color: #222;"></p>
+</section>
+
+<section class="products">
+    <div class="product">
+        <img src="ex1.jpg" alt="Dress 1">
+        <h3 style="color: #815854;">Blush Cream Core</h3>
+        <p>₹999.99</p>
+    </div>
+    <div class="product">
+        <img src="ex2.jpg" alt="Dress 2">
+        <h3 style="color: #6f7275;">Urban Stealth Fit</h3>
+        <p>₹1899.99</p>
+    </div>
+    <div class="product">
+        <img src="ex3.jpg" alt="Dress 3">
+        <h3 style="color: rgb(156, 31, 31);">Brick Street Baggy</h3>
+        <p>₹1499.99</p>
+    </div>
+    <div class="product">
+        <img src="" alt="Dress 4">
+        <h3 style="color: blueviolet;">soon</h3>
+        <p>₹0.00</p>
+    </div>
+       <div class="product">
+        <img src="" alt="Dress 5">
+        <h3 style="color: rgb(64, 107, 248);">soon</h3>
+        <p>₹0.00</p>
+    </div>
+       <div class="product">
+        <img src="" alt="Dress 6">
+        <h3 style="color: rgb(238, 33, 228);">soon</h3>
+        <p>₹0.00</p>
+    </div>
+</section>
+
+<footer>
+    &copy; 2025 W Clotheing Company. All Rights Reserved.
+</footer>
+
+</body>
+</html>
