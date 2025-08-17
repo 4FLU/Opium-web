@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NeonByte — Minimal Gaming Store</title>
+  <style>
+    :root{
+      --bg:#101820; /* Dark Charcoal */
+      --primary:#FF3366; /* Hot Pink */
+      --secondary:#33FF57; /* Lime Green */
+      --highlight:#FFD300; /* Arcade Yellow */
+      --text:#E6EDF7; /* Soft light */
+      --muted:#8A93A6; /* Muted text */
+      --card:#121a24;
+      --border: rgba(255,255,255,.06);
+      --shadow: 0 10px 30px rgba(0,0,0,.45);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background: radial-gradient(90vw 50vh at 10% -10%, rgba(255,51,102,.08), transparent 50%),
+                                  radial-gradient(70vw 40vh at 110% 10%, rgba(51,255,87,.08), transparent 50%),
+                                  radial-gradient(60vw 60vh at 50% 120%, rgba(255,211,0,.07), transparent 60%),
+                                  var(--bg);
+      color:var(--text); font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      letter-spacing:.2px;
+    }
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1100px; margin:0 auto; padding:0 20px}
+    header{
+      position:sticky; top:0; z-index:20; backdrop-filter: blur(8px);
+      background: linear-gradient(to bottom, rgba(16,24,32,.9), rgba(16,24,32,.6));
+      border-bottom:1px solid var(--border);
+    }
+    .nav{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+    .brand{display:flex; align-items:center; gap:10px}
+    .brand-badge{width:34px; height:34px; border-radius:10px; display:grid; place-items:center; font-weight:700;
+      background: conic-gradient(from 130deg at 50% 50%, var(--primary), var(--secondary), var(--highlight), var(--primary));
+      color:#101820; box-shadow:0 0 0 2px #000 inset, 0 10px 30px rgba(255,51,102,.15)
+    }
+    .brand-name{font-weight:800; letter-spacing:.4px}
+    .pill{display:flex; gap:10px; align-items:center; border:1px solid var(--border); padding:8px 12px; border-radius:999px}
+    nav ul{display:flex; list-style:none; gap:14px; padding:0; margin:0}
+    nav a{opacity:.85; padding:6px 10px; border-radius:8px; transition:opacity .2s, background .2s}
+    nav a:hover{opacity:1; background:rgba(255,255,255,.04)}
+
+    .btn{cursor:pointer; border:none; padding:12px 18px; border-radius:14px; font-weight:700; letter-spacing:.3px;
+      background:linear-gradient(180deg, var(--primary), #e42154); color:#101820; box-shadow:0 12px 30px rgba(255,51,102,.25);
+      transition: transform .15s ease, box-shadow .15s ease, filter .2s ease; will-change: transform
+    }
+    .btn:hover{transform: translateY(-2px); box-shadow:0 16px 36px rgba(255,51,102,.35); filter:saturate(1.05)}
+    .btn:active{transform: translateY(0)}
+    .btn.alt{background: linear-gradient(180deg, var(--secondary), #1fc94e)}
+
+    /* Hero */
+    .hero{position:relative; padding:72px 0 30px}
+    .hero-grid{display:grid; grid-template-columns: 1.2fr .8fr; gap:26px}
+    .kicker{color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:.24em}
+    h1{font-size: clamp(32px, 5vw, 62px); line-height:1.05; margin:10px 0 12px}
+    .sub{color:#cdd6e7; max-width:54ch}
+    .cta-row{display:flex; gap:12px; align-items:center; margin-top:18px}
+
+    .hero-card{border:1px solid var(--border); background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border-radius:var(--radius); padding:22px; min-height:220px; position:relative; overflow:hidden; box-shadow:var(--shadow)}
+    .hero-card:before{content:""; position:absolute; inset:-1px; pointer-events:none; border-radius:inherit;
+      background: radial-gradient(40% 60% at 120% -20%, rgba(255,51,102,.18), transparent 50%),
+                  radial-gradient(40% 60% at -20% 120%, rgba(51,255,87,.15), transparent 60%),
+                  radial-gradient(60% 60% at 50% -20%, rgba(255,211,0,.12), transparent 65%);
+      mask: linear-gradient(#000, transparent 60%);
+    }
+    .floating{position:absolute; bottom:-16px; right:-16px; width:min(38vw, 460px); aspect-ratio:1.4/1; opacity:.8;
+      filter: drop-shadow(0 22px 40px rgba(0,0,0,.55));
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+    /* Section header */
+    .section-head{display:flex; align-items:flex-end; justify-content:space-between; margin:34px 0 14px}
+    .section-head h2{margin:0; font-size: clamp(22px, 3vw, 32px)}
+    .tabs{display:flex; gap:10px}
+    .tab{padding:8px 12px; border-radius:10px; border:1px solid var(--border); color:var(--muted); cursor:pointer}
+    .tab.active{color:#101820; background: linear-gradient(180deg, var(--highlight), #e8bb00); font-weight:800}
+
+    /* Products */
+    .grid{display:grid; grid-template-columns: repeat(4, 1fr); gap:16px}
+    @media (max-width: 980px){.hero-grid{grid-template-columns:1fr}.grid{grid-template-columns: repeat(2, 1fr)}}
+    @media (max-width: 560px){.grid{grid-template-columns: 1fr}}
+
+    .card{position:relative; border:1px solid var(--border); border-radius:var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); overflow:hidden;
+      transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .card:hover{transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,.5); border-color: rgba(255,51,102,.45)}
+    .thumb{aspect-ratio: 4/3; display:grid; place-items:center; position:relative}
+    .thumb svg{width:64%; max-width:280px; opacity:.95; filter: drop-shadow(0 6px 14px rgba(0,0,0,.5))}
+    .glow{position:absolute; inset:0; background: radial-gradient(40% 40% at 30% 30%, rgba(255,51,102,.18), transparent 60%),
+                                           radial-gradient(40% 40% at 70% 60%, rgba(51,255,87,.18), transparent 60%)}
+    .content{padding:14px}
+    .title{font-weight:700; margin:2px 0}
+    .price{color:var(--highlight); font-weight:800; letter-spacing:.4px}
+    .meta{display:flex; align-items:center; gap:8px; color:var(--muted); font-size:.9rem}
+    .row{display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:10px}
+    .tag{font-size:.75rem; padding:4px 8px; border-radius:999px; border:1px dashed var(--border); color:#a7b0c2}
+
+    /* Cart */
+    .cart-btn{position:relative}
+    .badge{position:absolute; top:-6px; right:-6px; background:linear-gradient(180deg, var(--secondary), #13c443); color:#101820;
+      width:22px; height:22px; border-radius:999px; display:grid; place-items:center; font-size:.78rem; font-weight:900;
+      box-shadow:0 6px 16px rgba(19,196,67,.35)
+    }
+    .drawer{position: fixed; right: 16px; bottom: 16px; width:min(420px, 92vw); transform:translateY(30px);
+      opacity:0; pointer-events:none; transition: transform .25s ease, opacity .25s ease; z-index:50}
+    .drawer.active{transform:translateY(0); opacity:1; pointer-events:auto}
+    .panel{background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03)); border:1px solid var(--border);
+      border-radius:22px; box-shadow: var(--shadow); overflow:hidden}
+    .panel header{position:static; background:transparent; border:0}
+    .panel h3{margin:0; font-size:1.1rem}
+    .items{max-height: 38vh; overflow:auto; padding-right:4px}
+    .item{display:grid; grid-template-columns: 54px 1fr auto; gap:10px; align-items:center; padding:10px 0; border-bottom:1px dashed var(--border)}
+    .item:last-child{border-bottom:0}
+    .item img{width:54px; height:40px; border-radius:8px; border:1px solid var(--border); object-fit:cover}
+    .remove{background:none; border:0; color:var(--muted); cursor:pointer}
+
+    /* Animations on enter */
+    .reveal{opacity:0; transform: translateY(10px); transition: opacity .6s ease, transform .6s ease}
+    .reveal.in{opacity:1; transform: translateY(0)}
+
+    /* Reduce motion */
+    @media (prefers-reduced-motion: reduce){
+      .floating{animation:none}
+      .reveal{transition:none}
+      .btn{transition:none}
+    }
+    footer{color:var(--muted); padding:40px 0; text-align:center}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="brand-badge">NB</div>
+        <div class="brand-name">NeonByte</div>
+      </div>
+      <nav aria-label="primary">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#catalog">Catalog</a></li>
+          <li><a href="#deals">Deals</a></li>
+          <li><a href="#support">Support</a></li>
+        </ul>
+      </nav>
+      <div class="pill">
+        <button class="btn alt" id="openCart" aria-haspopup="dialog" aria-controls="cartDrawer">Cart</button>
+        <div class="cart-btn" aria-hidden="true"><span class="badge" id="cartCount">0</span></div>
+      </div>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero container">
+      <div class="hero-grid">
+        <div>
+          <div class="kicker">Minimal • Fast • Neon</div>
+          <h1 class="reveal">Level up your setup.</h1>
+          <p class="sub reveal" style="transition-delay:.06s">Curated gaming gear with a clean, distraction‑free design. Subtle glow, serious performance.</p>
+          <div class="cta-row reveal" style="transition-delay:.12s">
+            <a href="#catalog" class="btn">Shop Featured</a>
+            <a href="#deals" class="btn alt" style="background:linear-gradient(180deg, var(--highlight), #e8bb00)">Today’s Deals</a>
+          </div>
+        </div>
+        <div class="hero-card reveal" style="transition-delay:.1s">
+          <h3 style="margin:0 0 10px">This week’s drop</h3>
+          <p class="sub" style="margin:0 0 8px">Wireless RGB headset + low‑latency pad bundle.</p>
+          <img class="floating" alt="floating controllers" src="data:image/svg+xml;utf8,
+            <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 700 400'>
+              <defs>
+                <linearGradient id='g1' x1='0' y1='0' x2='1' y2='1'>
+                  <stop offset='0%' stop-color='%23FF3366'/>
+                  <stop offset='100%' stop-color='%2333FF57'/>
+                </linearGradient>
+              </defs>
+              <g fill='url(%23g1)' opacity='.95'>
+                <rect x='30' y='60' rx='36' ry='36' width='290' height='160'/>
+                <circle cx='120' cy='140' r='28' fill='%23101820'/>
+                <circle cx='220' cy='140' r='28' fill='%23101820'/>
+                <rect x='380' y='120' rx='26' ry='26' width='280' height='120'/>
+                <circle cx='620' cy='180' r='24' fill='%23101820'/>
+              </g>
+            </svg>" />
+        </div>
+      </div>
+    </section>
+
+    <section id="catalog" class="container">
+      <div class="section-head">
+        <h2>Featured Products</h2>
+        <div class="tabs">
+          <button class="tab active">All</button>
+          <button class="tab">Consoles</button>
+          <button class="tab">Accessories</button>
+          <button class="tab">PC Gear</button>
+        </div>
+      </div>
+
+      <div class="grid" id="productGrid">
+        <!-- Product cards injected by JS for brevity -->
+      </div>
+    </section>
+
+    <section id="deals" class="container" style="margin-top:30px">
+      <div class="section-head">
+        <h2>Lightning Deals</h2>
+        <span class="tag">Auto‑applies at checkout</span>
+      </div>
+      <div class="card reveal">
+        <div class="content">
+          <div class="row">
+            <div>
+              <div class="title">NeonByte Starter Pack</div>
+              <div class="meta">Headset + Mouse + Mat</div>
+            </div>
+            <div class="price">₹5,999</div>
+          </div>
+          <div class="row" style="margin-top:14px">
+            <button class="btn" data-bundle>Add to cart</button>
+            <span class="tag">-18% today</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+    <div class="panel">
+      <header class="container" style="display:flex; align-items:center; justify-content:space-between; padding:14px 16px">
+        <h3 id="cartTitle">Your Cart</h3>
+        <button class="btn alt" id="closeCart">Close</button>
+      </header>
+      <div class="container">
+        <div class="items" id="cartItems"></div>
+        <div class="row" style="padding:14px 0 20px">
+          <div class="meta"><span id="cartCountText">0</span> items • <strong class="price" style="margin-left:6px" id="cartTotal">₹0</strong></div>
+          <button class="btn" id="checkoutBtn">Checkout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="container">
+    © <span id="year"></span> NeonByte • Built with a minimal neon palette.
+  </footer>
+
+<script>
+  // ------- PRODUCT DATA (demo) -------
+  const products = [
+    {id:"p1", name:"Photon Pro Controller", price:4499, tag:"Wireless", svg:controllerSVG()},
+    {id:"p2", name:"Arc-Lite Headset", price:3999, tag:"RGB", svg:headsetSVG()},
+    {id:"p3", name:"Shadow Keyboard 60%", price:5499, tag:"Hot‑swap", svg:keyboardSVG()},
+    {id:"p4", name:"Glide Mouse Pro", price:2999, tag:"58g", svg:mouseSVG()},
+    {id:"p5", name:"Neo Display 27\" 165Hz", price:17999, tag:"165Hz", svg:monitorSVG()},
+    {id:"p6", name:"Stream Mic Mini", price:2499, tag:"USB‑C", svg:micSVG()},
+    {id:"p7", name:"Carbon Mat XL", price:1299, tag:"XL", svg:matSVG()},
+    {id:"p8", name:"Hyper Dock 7‑in‑1", price:3499, tag:"USB‑C", svg:dockSVG()},
+  ];
+
+  // ------- RENDER PRODUCTS -------
+  const grid = document.getElementById('productGrid');
+  products.forEach((p, i)=>{
+    const card = document.createElement('article');
+    card.className = 'card reveal';
+    card.style.transitionDelay = (i*40)+'ms';
+    card.innerHTML = `
+      <div class="thumb">
+        <div class="glow"></div>
+        ${p.svg}
+      </div>
+      <div class="content">
+        <div class="title">${p.name}</div>
+        <div class="meta">Ships in 24h • <span class="tag">${p.tag}</span></div>
+        <div class="row">
+          <div class="price">₹${p.price.toLocaleString('en-IN')}</div>
+          <button class="btn" data-id="${p.id}">Add</button>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+
+  // ------- REVEAL ON VIEW -------
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+  },{threshold:.08});
+  document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
+
+  // ------- CART LOGIC -------
+  const cart = new Map();
+  const cartCount = document.getElementById('cartCount');
+  const cartItems = document.getElementById('cartItems');
+  const cartTotal = document.getElementById('cartTotal');
+  const cartCountText = document.getElementById('cartCountText');
+  const drawer = document.getElementById('cartDrawer');
+  const openCart = document.getElementById('openCart');
+  const closeCart = document.getElementById('closeCart');
+
+  function updateCartUI(){
+    let total = 0, count = 0;
+    cartItems.innerHTML = '';
+    cart.forEach((qty, id)=>{
+      const p = products.find(x=>x.id===id);
+      total += p.price * qty; count += qty;
+      const item = document.createElement('div');
+      item.className = 'item';
+      item.innerHTML = `
+        <img alt="${p.name}" src="data:image/svg+xml;utf8,${encodeURIComponent(simpleThumb(p.name))}">
+        <div>
+          <div style="font-weight:700">${p.name}</div>
+          <div class="meta">Qty ${qty} • ₹${(p.price*qty).toLocaleString('en-IN')}</div>
+        </div>
+        <button class="remove" aria-label="Remove ${p.name}" data-remove="${p.id}">✕</button>`;
+      cartItems.appendChild(item);
+    });
+    cartCount.textContent = count;
+    cartCountText.textContent = count;
+    cartTotal.textContent = '₹' + total.toLocaleString('en-IN');
+  }
+
+  document.addEventListener('click', (e)=>{
+    const addBtn = e.target.closest('.btn[data-id]');
+    if(addBtn){
+      const id = addBtn.getAttribute('data-id');
+      cart.set(id, (cart.get(id)||0)+1);
+      updateCartUI();
+      drawer.classList.add('active');
+    }
+    if(e.target.matches('[data-remove]')){
+      const id = e.target.getAttribute('data-remove');
+      cart.delete(id); updateCartUI();
+    }
+    if(e.target.matches('[data-bundle]')){
+      ['p2','p4','p7'].forEach(id=> cart.set(id, (cart.get(id)||0)+1));
+      updateCartUI(); drawer.classList.add('active');
+    }
+  });
+
+  openCart.addEventListener('click', ()=> drawer.classList.add('active'));
+  closeCart.addEventListener('click', ()=> drawer.classList.remove('active'));
+
+  // ------- UTILS: SVG Placeholders -------
+  function controllerSVG(){
+    return `<svg viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="${css('--primary')}"/>
+          <stop offset="100%" stop-color="${css('--secondary')}"/>
+        </linearGradient>
+      </defs>
+      <g fill="url(#g)" opacity=".95">
+        <rect x="40" y="140" rx="60" ry="60" width="560" height="200"/>
+        <circle cx="200" cy="240" r="36" fill="${css('--bg')}"/>
+        <circle cx="440" cy="240" r="36" fill="${css('--bg')}"/>
+      </g>
+    </svg>`;
+  }
+  function headsetSVG(){
+    return `<svg viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg"><path d="M120 260a200 200 0 0 1 400 0v60h-80v-60a120 120 0 0 0-240 0v60h-80z" fill="${css('--primary')}"/><rect x="98" y="260" width="90" height="130" rx="20" fill="${css('--secondary')}"/><rect x="452" y="260" width="90" height="130" rx="20" fill="${css('--secondary')}"/></svg>`;
+  }
+  function keyboardSVG(){
+    return `<svg viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg"><rect x="70" y="170" width="500" height="150" rx="20" fill="${css('--primary')}"/><g fill="${css('--bg')}">${Array.from({length:9},(_,i)=>`<rect x="${90+i*52}" y="188" width="40" height="40" rx="6"/>`).join('')}</g></svg>`;
+  }
+  function mouseSVG(){
+    return `<svg viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg"><rect x="260" y="120" width="120" height="240" rx="60" fill="${css('--secondary')}"/><rect x="308" y="160" width="24" height="60" rx="8" fill="${css('--bg')}"/></svg>`;
+  }
+  function monitorSVG(){
+    return `<svg viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg"><rect x="90" y="120" width="460" height="260" rx="16" fill="${css('--primary')}"/><rect x="280" y="390" width="80" height="30" rx="8" fill="${css('--highlight')}"/></svg>`;
+  }
+  function micSVG(){
+    return `<svg viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg"><rect x="280" y="120" width="80" height="160" rx="40" fill="${css('--secondary')}"/><rect x="270" y="280" width="100" height="20" rx="10" fill="${css('--primary')}"/><rect x="300" y="300" width="40" height="80" rx="10" fill="${css('--highlight')}"/></svg>`;
+  }
+  function matSVG(){
+    return `<svg viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg"><rect x="80" y="180" width="480" height="120" rx="20" fill="${css('--highlight')}"/></svg>`;
+  }
+  function dockSVG(){
+    return `<svg viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg"><rect x="140" y="200" width="360" height="80" rx="16" fill="${css('--primary')}"/><g fill="${css('--bg')}">${[0,1,2,3,4,5,6].map(i=>`<circle cx="${180+i*48}" cy="240" r="10"/>`).join('')}</g></svg>`;
+  }
+  function simpleThumb(text){
+    return `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 160'>
+      <defs>
+        <linearGradient id='gg' x1='0' y1='0' x2='1' y2='1'>
+          <stop offset='0%' stop-color='${css('--primary')}'/>
+          <stop offset='100%' stop-color='${css('--secondary')}'/>
+        </linearGradient>
+      </defs>
+      <rect x='6' y='6' width='208' height='148' rx='16' fill='url(%23gg)'/>
+      <text x='110' y='88' font-size='12' text-anchor='middle' fill='${css('--bg')}' font-family='system-ui,Segoe UI,Roboto'>${text}</text>
+    </svg>`;
+  }
+  function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()}
+
+  // ------- MISC -------
+  document.getElementById('year').textContent = new Date().getFullYear();
+  document.getElementById('checkoutBtn').addEventListener('click', ()=>{
+    alert('Demo checkout — connect your payment provider here.');
+  });
+</script>
+</body>
+</html>

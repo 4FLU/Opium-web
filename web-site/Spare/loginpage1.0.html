@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animated Login Page</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #101820; /* Dark Charcoal */
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .login-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid #FF3366; /* Hot Pink */
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 25px rgba(255, 51, 102, 0.6);
+      width: 300px;
+      text-align: center;
+      animation: floatUp 1.2s ease-out;
+    }
+
+    @keyframes floatUp {
+      from {
+        transform: translateY(60px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .login-box h2 {
+      margin-bottom: 20px;
+      color: #FFD300; /* Arcade Yellow */
+      letter-spacing: 2px;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    .login-box input:focus {
+      border: 2px solid #33FF57; /* Lime Green */
+      box-shadow: 0 0 10px #33FF57;
+    }
+
+    .login-box input[type="text"] {
+      background: #1a1f2b;
+      color: white;
+    }
+
+    .login-box input[type="password"] {
+      background: #1a1f2b;
+      color: white;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 10px;
+      background: #FF3366; /* Hot Pink */
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .login-box button:hover {
+      background: #33FF57; /* Lime Green */
+      color: #101820;
+      transform: scale(1.05);
+    }
+
+    .highlight {
+      color: #FFD300;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>Login</h2>
+    <form action="gameP.html" method="get">
+      <!-- Username only letters -->
+      <input type="text" name="username" placeholder="Username" pattern="[A-Za-z]+" required>
+      
+      <!-- Password only numbers -->
+      <input type="password" name="password" placeholder="Password (numbers only)" pattern="[0-9]+" required>
+      
+      <button type="submit">Login</button>
+    </form>
+  </div>
+</body>
+</html>

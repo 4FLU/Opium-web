@@ -1,44 +1,65 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>
-         TEST PROJECT
-        </title>
-            <style>
-               .text {
-    color: #ffffff;
-    font-size: 36px;        
-    text-align: center;
-}
-
-.img{
-    display: block;
-    margin: 20px auto;
-    width: 200px;
-}
-
-p {
-    color: rgb(255, 255, 255);
-    font-size: 18px;
-    text-align: center;
-    margin: 20px;
-}
-
-.mp4 {
-    display: block;
-    margin: 50px auto; /* adjust vertical position */
-    width: 640px;
-}
-            </style>
-    </head>
-    <h1 class="text"><strong>SOUND WAVE</strong></h1>
-    <body bgcolor="#000000">
-        <a href="https://surli.cc/kiabnj" target="_blank">
-            <img src="00img.jpg" class="img">
-        </a>
-        <p style="#ffffff"><i>Opium (also known as 00pium) is an American record label and rap collective founded in 2019 by American rapper Playboi Carti.The label, which is based in Atlanta, Georgia, currently holds four acts; rappers Playboi Carti, Ken Carson, Destroy Lonely and the duo Homixide Gang, all of whom are natives to the city. The label is also affiliated with a variety of producers including KP Beatz, Lil 88, and F1lthy, who all worked extensively on Playboi Carti's second studio album, Whole Lotta Red.</i></p>
-    <video class="mp4" width="640" height="360" controls autoplay loop muted>
-    <source src="00mp4.mp4" type="video/mp4">
-</video>
-    </body>
-    </html>
+<head>
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://picsum.photos/1600/900') no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-box {
+            background: rgba(255, 255, 255, 0.2); /* transparent white */
+            backdrop-filter: blur(10px); /* blur effect */
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 20px rgba(0,0,0,0.3);
+            width: 320px;
+            text-align: center;
+        }
+        .login-box h2 {
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .login-box input {
+            width: 90%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            background: rgba(255, 255, 255, 0.7);
+        }
+        .login-box button {
+            width: 90%;
+            padding: 10px;
+            margin-top: 10px;
+            background: #4CAF50;
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .login-box button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h2>Login</h2>
+        <form action="welcome.html" method="get">
+            <input type="text" placeholder="Username (Numbers only)" name="username"
+                   pattern="[0-9]+"
+                   title="Only numbers allowed"
+                   required>
+            <input type="password" placeholder="Password" name="password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>
